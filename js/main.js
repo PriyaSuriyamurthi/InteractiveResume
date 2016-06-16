@@ -2,14 +2,14 @@ var bio = {
     "name": "Priya Suriyamurthi",
     "role": "Web Developer",
     "contacts": {
-        "mobile": 6824012998,
+        "mobile": "6824012998",
         "email": "Priya.suriyamurthi@gmail.com",
         "github": "https://github.com/PriyaSuriyamurthi",
         "linkedin": "https://www.linkedin.com/pub/priya-suriyamurthi/a7/870/4ba",
         "location": "Austin"
     },
     "biopic": "http://priyasuriyamurthi.github.io/images/Priya-200_x2.png",
-    "welcomemessage": "I'm passionate about web design and web development, and am currently working as a Application consultant. Feel free to check out my Github repositories and demo projects. You can also find me on Linkedin.",
+    "welcomeMessage": "I'm passionate about web design and web development, and am currently working as a Application consultant. Feel free to check out my Github repositories and demo projects. You can also find me on Linkedin.",
     "skills": ["sportive", "energetic", "enthusiasm", "Hard-working"],
     "award": [{
         "title": "Most Valuable Player",
@@ -26,8 +26,9 @@ var skill = {
     "skilldata": ["Javascript", "HTML", "jQuery", "CSS", "Bootstrap", "github"]
 
 };
+
 var work = {
-    "works": [{
+    "jobs": [{
         "employer": "CM First Group",
         "title": "Application Consultant",
         "dates": "Mar 2016 - Till date",
@@ -53,14 +54,14 @@ var projects = {
         "title": "Portfolio",
         "dates": "Jun 2016",
         "description": "Create a portfolio using HTML and CSS",
-        "images": "img/portfolio.png",
+        "images": ["img/portfolio.png"],
         "demo": "http://priyasuriyamurthi.github.io/",
         "gitlink": "https://github.com/PriyaSuriyamurthi/priyasuriyamurthi.github.io"
     }, {
         "title": "Free Code Camp",
         "dates": "Dec 2015",
         "description": "HTML, CSS, Javascript and jQuery projects",
-        "images": "img/freecodecamp.png",
+        "images": ["img/freecodecamp.png"],
         "demo": "https://www.freecodecamp.com/priyasuriyamurthi",
         "gitlink": "https://github.com/PriyaSuriyamurthi/priyasuriyamurthi.github.io"
     }]
@@ -71,24 +72,26 @@ var education = {
         "name": "Savithri Vidyasala",
         "location": "Trichy",
         "degree": "Higher Secondary",
-        "major": "Biology-Physics-Chemistry-Maths",
-        "dates": "2002-2004"
+        "major": ["Biology", "Physics", "Chemistry", "Maths"],
+        "dates": "2002-2004",
+        "url": "http://www.svstrichy.edu.in/ "
     }, {
         "name": "Anna University",
         "location": "Trichy",
         "degree": "Bachelor of Engineering",
-        "major": "Electronics of communication",
-        "dates": "2004-2008"
+        "major": ["Electronics","communication"],
+        "dates": "2004-2008",
+        "url": "https://www.annauniv.edu/"
     }],
     "onlineCourses": [{
         "title": "Web Developer",
         "school": "FCC",
-        "dates": "2015",
+        "dates": "2015-2016",
         "url": "http://www.freecodecamp.com"
     }, {
         "title": "Web Developer",
         "school": "Udacity",
-        "dates": "2016",
+        "dates": "2015-2016",
         "url": "http://www.udacity.com"
     }]
 };
@@ -121,9 +124,10 @@ var HTMLprojectGit = '<a href="%data%" id="demo-link" target="_blank">Github</a>
 var HTMLschoolStart = '<div class="education-entry"></div>';
 var HTMLschoolName = '<a href="#">%data%';
 var HTMLschoolDegree = ' -- %data%</a>';
-var HTMLschoolDates = '<div class="date-text">%data%</div><br>';
+var HTMLschoolDates = '<div class="date-text">%data%</div>';
 var HTMLschoolLocation = '<div class="location-text">%data%</div>';
 var HTMLschoolMajor = '<em><br>Major: %data%</em>';
+var HTMLschoolUrl = '<a href="%data%" target="_blank">%data%</a> <br>';
 
 var HTMLonlineHead = '<h3 class="header-featured">Online Classes</h3>';
 var HTMLonlineClasses = '<div></div> <br>';
@@ -140,7 +144,21 @@ $(document).ready(function() {
     $('.carousel').carousel({
         interval: false
     });
-    //Check if the bio is empty before processing
+    
+    bioInitialize();
+    workInitialize();
+    projectsInitialize();
+    educationInitalize();
+    //Append to get the map
+    $("#mapDiv").append(googleMap);
+    //Append to get the footer
+    $(".footer-entry:last").append(HTMLfooterTitle.replace("%data%", "©" + bio.name));
+
+});
+
+
+function bioInitialize() {
+    if(typeof work != "undefined"){
     if (jQuery.isEmptyObject(bio)) {
         $("body").css("display", "none");
     } else {
@@ -150,7 +168,7 @@ $(document).ready(function() {
             $(".profile-text").append(HTMLprofileName.replace("%data%",bio.name));
             $(".profile-text").append(HTMLroleText.replace("%data%",bio.role));
             $(".profile-text").append(HTMLcontactLocation.replace("%data%",bio.contacts.location));
-            $("#welcome-text").append(bio.welcomemessage);
+            $("#welcome-text").append(bio.welcomeMessage);
             if (bio.skills.length > 0) {
                 for (var i in bio.skills) {
                     $("#skill-text").append("<li>" + bio.skills[i] + "</li>");
@@ -173,7 +191,15 @@ $(document).ready(function() {
         };
         bio.display();
     }
-    //Check if the experience is empty before processing
+    }
+    else{
+        $("body").css("display", "none");
+    } 
+
+}
+
+function workInitialize(){
+    if(typeof work != "undefined"){
     if (jQuery.isEmptyObject(work)) {
         $("#experience").css("display", "none");
 
@@ -181,13 +207,13 @@ $(document).ready(function() {
         work.display = function() {
             var descripDetails;
             var workDescription;
-            for (var i in work.works) {
+            for (var i in work.jobs) {
                 $("#workExperience").append(HTMLworkStart);
-                $(".work-entry:last").append(HTMLworkEmployer.replace("%data%", work.works[i].employer));
-                $(".work-entry:last").append(HTMLworkTitle.replace("%data%", work.works[i].title));
-                $(".work-entry:last").append(HTMLworkLocation.replace("%data%", work.works[i].location));
-                $(".work-entry:last").append(HTMLworkDates.replace("%data%", work.works[i].dates));
-                descripDetails = work.works[i].description.split(",");
+                $(".work-entry:last").append(HTMLworkEmployer.replace("%data%", work.jobs[i].employer));
+                $(".work-entry:last").append(HTMLworkTitle.replace("%data%", work.jobs[i].title));
+                $(".work-entry:last").append(HTMLworkLocation.replace("%data%", work.jobs[i].location));
+                $(".work-entry:last").append(HTMLworkDates.replace("%data%", work.jobs[i].dates));
+                descripDetails = work.jobs[i].description.split(",");
                 workDescription = " ";
                 for (var j in descripDetails) {
                     workDescription = workDescription + "<li>" + descripDetails[j] + "</li>";
@@ -195,7 +221,7 @@ $(document).ready(function() {
                 $(".work-entry:last").append(HTMLworkDescription.replace("%data%", workDescription));
             }
         };
-        work.display();
+        work.workChart = function() {
         var dataval = [];
         var backgndColor = [];
         var color = ' ';
@@ -219,14 +245,25 @@ $(document).ready(function() {
                 window.myPolarArea = new Chart(ctx, {
                     data: data,
                     type: 'polarArea',
-                    reposnsive: true,
+                    reposnsive: false,
                     hoverBackgroundColor: "#000000"
                 });
             };
         }
+        };
+        work.display();
+        work.workChart();  
 
     }
-    //Check if the Projects are empty before processing
+    }
+    else
+    {
+        $("#experience").css("display", "none");
+    }
+}
+
+function projectsInitialize() {
+    if (jQuery.isEmptyObject(projects) != "undefined") {
     if (jQuery.isEmptyObject(projects)) {
         $("projects").css("display", "none");
     } else {
@@ -245,8 +282,17 @@ $(document).ready(function() {
         };
         projects.display();
     }
+}
 
-    //Check if the education are empty before processing
+else
+{
+    $("projects").css("display", "none");
+}
+
+}
+
+function educationInitalize() {
+    if (jQuery.isEmptyObject(education) != "undefined") {
     if (jQuery.isEmptyObject(education)) {
         $("educations").css("display", "none");
     } else {
@@ -256,8 +302,11 @@ $(document).ready(function() {
                 $(".education-entry:last").append(HTMLschoolName.replace("%data%", education.schools[i].name));
                 $(".education-entry:last").append(HTMLschoolLocation.replace("%data%", education.schools[i].location));
                 $(".education-entry:last").append(HTMLschoolDegree.replace("%data%", education.schools[i].degree));
-                $(".education-entry:last").append(HTMLschoolMajor.replace("%data%", education.schools[i].major));
+                if(education.schools[i].major.length > 0){
+                    $(".education-entry:last").append(HTMLschoolMajor.replace("%data%", education.schools[i].major.join(",")));        
+                }                
                 $(".education-entry:last").append(HTMLschoolDates.replace("%data%", education.schools[i].dates));
+                $(".education-entry:last").append(HTMLschoolUrl.replace(/%data%/g, education.schools[i].url));
             }
             $(".education-entry:last").append(HTMLonlineHead);
             for (var i in education.onlineCourses) {
@@ -268,10 +317,11 @@ $(document).ready(function() {
                 $(".education-entry:last").append(HTMLonlineURL.replace(/%data%/g, education.onlineCourses[i].url));
             }
         };
-        education.display();
-        var educationdates = [];
-        var educationtitle = [];
-        var educationindex;
+        
+        education.chartDisplay = function() {
+            var educationdates = [];
+            var educationtitle = [];
+            var educationindex;
         if (education.schools.length > 0) {
             for (var i in education.schools) {
                 educationindex = 0;
@@ -282,16 +332,13 @@ $(document).ready(function() {
         }
         if (education.onlineCourses.length > 0) {
             for (var i in education.onlineCourses) {
-
-                educationdates.push(education.onlineCourses[i].dates);
+                educationindex = 0;
+                educationindex = education.onlineCourses[i].dates.indexOf("-");
+                educationdates.push(education.onlineCourses[i].dates.substring(++educationindex));
                 educationtitle.push((education.onlineCourses[i].title).concat(education.onlineCourses[i].school));
             }
         }
-        Array.min = function(array) {
-            return Math.min.apply(Math, array);
-        };
-        var tabIndex = Array.min(educationdates) - 1;
-        educationdates.unshift(tabIndex);
+       
         if ((educationdates.length > 0) && (educationtitle.length > 0)) {
             var data1 = {
                 labels: educationtitle,
@@ -315,20 +362,18 @@ $(document).ready(function() {
                 reponsive: false
             });
         }
+    };
+        education.display();
+        education.chartDisplay();
 
 
     }
-    //Append to get the map
-    $("#mapDiv").append(googleMap);
-
-    //Append to get the footer
-    $(".footer-entry:last").append(HTMLfooterTitle.replace("%data%", "©" + bio.name));
-
-
-});
-
-
-
+    }
+    else
+    {
+          $("educations").css("display", "none");
+    }
+}
 var map;
 
 function initializeMap() {
@@ -371,7 +416,7 @@ function initializeMap() {
         // the locations array. Note that forEach is used for array iteration
         // as described in the Udacity FEND Style Guide:
         // https://udacity.github.io/frontend-nanodegree-styleguide/javascript.html#for-in-loop
-        work.works.forEach(function(job) {
+        work.jobs.forEach(function(job) {
             locations.push(job.location);
         });
 
