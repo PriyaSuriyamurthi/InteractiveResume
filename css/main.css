@@ -17,6 +17,8 @@ body {
 .carousel-caption {
     text-align: justify;
 }
+
+
 .carousel .item {
     height: 500px;
     background-color: #777;
@@ -49,7 +51,12 @@ body {
 .header-featured {
     font-family: "IM Fell English", serif;
     font-size: 31px;
+    color: #f5a623;
 }
+a {
+    color: #2827b2;
+    }
+
 .main-text,
 .header-text {
     color: #fff;
@@ -126,7 +133,7 @@ body {
 }
 /** Media Query **/
 
-@media (max-width: 1000px) and (min-width: 800px) {
+@media (max-width: 1060px) and (min-width: 800px) {
     .profile-text,
     .header-text .main-container {
         font-size: 10px;
@@ -190,7 +197,7 @@ body {
     }
     .contact-icon .fa {
         font-size: 3em;
-        padding-bottom: 30%;
+        padding-bottom: 40%;
         padding-left: 10px;
     }
     #awards-text {

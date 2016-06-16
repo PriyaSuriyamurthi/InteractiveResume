@@ -72,26 +72,26 @@ var education = {
         "name": "Savithri Vidyasala",
         "location": "Trichy",
         "degree": "Higher Secondary",
-        "major": ["Biology", "Physics", "Chemistry", "Maths"],
+        "majors": ["Biology", "Physics", "Chemistry", "Maths"],
         "dates": "2002-2004",
         "url": "http://www.svstrichy.edu.in/ "
     }, {
         "name": "Anna University",
         "location": "Trichy",
-        "degree": "Bachelor of Engineering",
-        "major": ["Electronics","communication"],
+        "degree": "B.E",
+        "majors": ["Electronics", "communication"],
         "dates": "2004-2008",
         "url": "https://www.annauniv.edu/"
     }],
     "onlineCourses": [{
-        "title": "Web Developer",
+        "title": "Web Developer ",
         "school": "FCC",
-        "dates": "2015-2016",
+        "date": "2015-2016",
         "url": "http://www.freecodecamp.com"
     }, {
-        "title": "Web Developer",
+        "title": "Web Developer ",
         "school": "Udacity",
-        "dates": "2015-2016",
+        "date": "2015-2016",
         "url": "http://www.udacity.com"
     }]
 };
@@ -103,17 +103,16 @@ var HTMLcontactLocation = '<h4 class="header-featured">%data%</h4><hr>';
 var HTMLawardStart = '<div class="award-entry"></div>';
 var HTMLawardEmployer = '<a href="#">%data%';
 var HTMLawardTitle = ' - %data%</a>';
-var HTMLawardDates = '<div class="award-date-text">%data%</div>';
+var HTMLawardDates = '<p>%data%</p>';
 
 var HTMLworkStart = '<div class="work-entry"></div>';
-var HTMLworkEmployer = '<a href="#">%data%';
-var HTMLworkTitle = ' - %data%</a>';
-var HTMLworkDates = '<div class="date-text">%data%</div>';
-var HTMLworkLocation = '<div class="location-text">%data%</div>';
+var HTMLworkEmployer = '<a href="#">%data% </a>';
+var HTMLworkTitle = '<p>- %data%</p>';
+var HTMLworkDates = '<p>%data%</p>';
+var HTMLworkLocation = '<p>%data%</p>';
 var HTMLworkDescription = '<ul>%data%</ul>';
 
 var HTMLprojectStart = '<div class="project-entry"></div>';
-var HTMLprojectBegin = '<div class="project-details"><div>';
 var HTMLprojectTitle = '<a href="#">%data%</a>';
 var HTMLprojectDates = '<p>%data%</p>';
 var HTMLprojectDescription = '<p>%data%</p>';
@@ -122,18 +121,18 @@ var HTMLprojectDemo = '<a href="%data%" id="demo-link" target="_blank">Demo</a>'
 var HTMLprojectGit = '<a href="%data%" id="demo-link" target="_blank">Github</a>';
 
 var HTMLschoolStart = '<div class="education-entry"></div>';
-var HTMLschoolName = '<a href="#">%data%';
-var HTMLschoolDegree = ' -- %data%</a>';
-var HTMLschoolDates = '<div class="date-text">%data%</div>';
-var HTMLschoolLocation = '<div class="location-text">%data%</div>';
-var HTMLschoolMajor = '<em><br>Major: %data%</em>';
+var HTMLschoolName = '<br><a href="#">%data%</a>';
+var HTMLschoolDegree = '<p> -- %data%</p>';
+var HTMLschoolDates = '<p>%data%</p>';
+var HTMLschoolLocation = '<p>%data%</p>';
+var HTMLschoolmajors = '<em>Majors: %data%</em>';
 var HTMLschoolUrl = '<a href="%data%" target="_blank">%data%</a> <br>';
 
+var HTMLonlineStart = '<div class="online-entry"></div>';
 var HTMLonlineHead = '<h3 class="header-featured">Online Classes</h3>';
-var HTMLonlineClasses = '<div></div> <br>';
-var HTMLonlineTitle = '<a href="#">%data%';
-var HTMLonlineSchool = ' - %data%</a>';
-var HTMLonlineDates = '<div class="date-text">%data%</div>';
+var HTMLonlineTitle = '<br><a href="#">%data%</a>';
+var HTMLonlineSchool = '<p> - %data%</p>';
+var HTMLonlineDates = '<p>%data%</p>';
 var HTMLonlineURL = '<a href="%data%" target="_blank">%data%</a>';
 
 var HTMLfooterTitle = "<h4>%data%</h4>";
@@ -144,7 +143,7 @@ $(document).ready(function() {
     $('.carousel').carousel({
         interval: false
     });
-    
+
     bioInitialize();
     workInitialize();
     projectsInitialize();
@@ -158,220 +157,210 @@ $(document).ready(function() {
 
 
 function bioInitialize() {
-    if(typeof work != "undefined"){
-    if (jQuery.isEmptyObject(bio)) {
-        $("body").css("display", "none");
-    } else {
-        bio.display = function() {
+    if (typeof work != "undefined") {
+        if (jQuery.isEmptyObject(bio)) {
+            $("body").css("display", "none");
+        } else {
+            bio.display = function() {
 
-            $(".profile-pic").attr("src", bio.biopic);
-            $(".profile-text").append(HTMLprofileName.replace("%data%",bio.name));
-            $(".profile-text").append(HTMLroleText.replace("%data%",bio.role));
-            $(".profile-text").append(HTMLcontactLocation.replace("%data%",bio.contacts.location));
-            $("#welcome-text").append(bio.welcomeMessage);
-            if (bio.skills.length > 0) {
-                for (var i in bio.skills) {
-                    $("#skill-text").append("<li>" + bio.skills[i] + "</li>");
+                $(".profile-pic").attr("src", bio.biopic);
+                $(".profile-text").append(HTMLprofileName.replace("%data%", bio.name), HTMLroleText.replace("%data%", bio.role), HTMLcontactLocation.replace("%data%", bio.contacts.location));
+                $("#welcome-text").append(bio.welcomeMessage);
+                if (bio.skills.length > 0) {
+                    for (var i = 0; i < bio.skills.length; i++) {
+                        $("#skill-text").append("<li>" + bio.skills[i] + "</li>");
+                    }
                 }
-            }
-            var contactMobile = $("#contact-phone").attr("href") + bio.contacts.mobile;
-            $("#contact-phone").attr("href", contactMobile);
-            var contactEmail = $("#contact-email").attr("href") + bio.contacts.email;
-            $("#contact-email").attr("href", contactEmail);
-            $("#contact-github").attr("href", bio.contacts.github);
-            $("#contact-linked").attr("href", bio.contacts.linkedin);
-            if (bio.award.length > 0) {
-                for (var i in bio.award) {
-                    $("#awards-text").append(HTMLawardStart);
-                    $(".award-entry:last").append(HTMLawardEmployer.replace("%data%", bio.award[i].company));
-                    $(".award-entry:last").append(HTMLawardTitle.replace("%data%", bio.award[i].title));
-                    $(".award-entry:last").append(HTMLawardDates.replace("%data%", bio.award[i].date));
+                var contactMobile = $("#contact-phone").attr("href") + bio.contacts.mobile;
+                $("#contact-phone").attr("href", contactMobile);
+                var contactEmail = $("#contact-email").attr("href") + bio.contacts.email;
+                $("#contact-email").attr("href", contactEmail);
+                $("#contact-github").attr("href", bio.contacts.github);
+                $("#contact-linked").attr("href", bio.contacts.linkedin);
+                if (bio.award.length > 0) {
+                    for (var i = 0; i < bio.award.length; i++) {
+                        $("#awards-text").append(HTMLawardStart);
+                        $(".award-entry:last").append(HTMLawardEmployer.replace("%data%", bio.award[i].company));
+                        $(".award-entry:last").append(HTMLawardTitle.replace("%data%", bio.award[i].title));
+                        $(".award-entry:last").append(HTMLawardDates.replace("%data%", bio.award[i].date));
+                    }
                 }
-            }
-        };
-        bio.display();
-    }
-    }
-    else{
+            };
+            bio.display();
+        }
+    } else {
         $("body").css("display", "none");
-    } 
+    }
 
 }
 
-function workInitialize(){
-    if(typeof work != "undefined"){
-    if (jQuery.isEmptyObject(work)) {
-        $("#experience").css("display", "none");
+function workInitialize() {
+    if (typeof work != "undefined") {
+        if (jQuery.isEmptyObject(work)) {
+            $("#experience").css("display", "none");
 
-    } else {
-        work.display = function() {
-            var descripDetails;
-            var workDescription;
-            for (var i in work.jobs) {
-                $("#workExperience").append(HTMLworkStart);
-                $(".work-entry:last").append(HTMLworkEmployer.replace("%data%", work.jobs[i].employer));
-                $(".work-entry:last").append(HTMLworkTitle.replace("%data%", work.jobs[i].title));
-                $(".work-entry:last").append(HTMLworkLocation.replace("%data%", work.jobs[i].location));
-                $(".work-entry:last").append(HTMLworkDates.replace("%data%", work.jobs[i].dates));
-                descripDetails = work.jobs[i].description.split(",");
-                workDescription = " ";
-                for (var j in descripDetails) {
-                    workDescription = workDescription + "<li>" + descripDetails[j] + "</li>";
+        } else {
+            work.display = function() {
+                var descripDetails;
+                var workDescription;
+                for (var i = 0; i < work.jobs.length; i++) {
+                    $("#workExperience").append(HTMLworkStart);
+                    $(".work-entry:last").append(HTMLworkEmployer.replace("%data%", work.jobs[i].employer));
+                    $(".work-entry:last").append(HTMLworkTitle.replace("%data%", work.jobs[i].title));
+                    $(".work-entry:last").append(HTMLworkLocation.replace("%data%", work.jobs[i].location));
+                    $(".work-entry:last").append(HTMLworkDates.replace("%data%", work.jobs[i].dates));
+                    descripDetails = work.jobs[i].description.split(",");
+                    workDescription = " ";
+                    for (var j = 0; j < descripDetails.length; j++) {
+                        workDescription = workDescription + "<li>" + descripDetails[j] + "</li>";
+                    }
+                    $(".work-entry:last").append(HTMLworkDescription.replace("%data%", workDescription));
                 }
-                $(".work-entry:last").append(HTMLworkDescription.replace("%data%", workDescription));
-            }
-        };
-        work.workChart = function() {
-        var dataval = [];
-        var backgndColor = [];
-        var color = ' ';
-        if (skill.skilldata.length > 0) {
-            for (var len = skill.skilldata.length; len >= 0; len--) {
-                dataval.push(len * 2);
-                color = ' ';
-                color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-                backgndColor.push(color);
-            }
-            var data = {
-                datasets: [{
-                    data: dataval,
-                    backgroundColor: backgndColor,
-                    label: 'My dataset'
-                }],
-                labels: skill.skilldata
             };
-            window.onload = function() {
-                var ctx = document.getElementById("skills-chart").getContext("2d");
-                window.myPolarArea = new Chart(ctx, {
-                    data: data,
-                    type: 'polarArea',
-                    reposnsive: false,
-                    hoverBackgroundColor: "#000000"
-                });
+            work.workChart = function() {
+                var dataval = [];
+                var backgndColor = [];
+                var color = ' ';
+                if (skill.skilldata.length > 0) {
+                    for (var len = skill.skilldata.length; len >= 0; len--) {
+                        dataval.push(len * 2);
+                        color = ' ';
+                        color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+                        backgndColor.push(color);
+                    }
+                    var data = {
+                        datasets: [{
+                            data: dataval,
+                            backgroundColor: backgndColor,
+                            label: 'My dataset'
+                        }],
+                        labels: skill.skilldata
+                    };
+                    window.onload = function() {
+                        var ctx = document.getElementById("skills-chart").getContext("2d");
+                        window.myPolarArea = new Chart(ctx, {
+                            data: data,
+                            type: 'polarArea',
+                            reposnsive: false,
+                            hoverBackgroundColor: "#000000"
+                        });
+                    };
+                }
             };
-        }
-        };
-        work.display();
-        work.workChart();  
+            work.display();
+            work.workChart();
 
-    }
-    }
-    else
-    {
+        }
+    } else {
         $("#experience").css("display", "none");
     }
 }
 
 function projectsInitialize() {
     if (jQuery.isEmptyObject(projects) != "undefined") {
-    if (jQuery.isEmptyObject(projects)) {
-        $("projects").css("display", "none");
+        if (jQuery.isEmptyObject(projects)) {
+            $("projects").css("display", "none");
+        } else {
+            projects.display = function() {
+                for (var i = 0; i < projects.projects.length; i++) {
+                    $("#workProjects").append(HTMLprojectStart);
+                    $(".project-entry:last").append(HTMLprojectTitle.replace("%data%", projects.projects[i].title), HTMLprojectDates.replace("%data%", projects.projects[i].dates), HTMLprojectDescription.replace("%data%", projects.projects[i].description));
+                    if (projects.projects[i].images.length > 0) {
+                        for (var j = 0; j < projects.projects[i].images.length; j++) {
+                            $(".project-entry:last").append(HTMLprojectImage.replace("%data%", projects.projects[i].images[j]));
+                        }
+                    }
+                    $(".project-entry:last").append(HTMLprojectDemo.replace("%data%", projects.projects[i].demo), HTMLprojectGit.replace("%data%", projects.projects[i].gitlink));
+
+                }
+            };
+            projects.display();
+        }
     } else {
-        projects.display = function() {
-            for (var i in projects.projects) {
-                $("#workProjects").append(HTMLprojectStart);
-                $(".project-entry:last").append(HTMLprojectBegin);
-                $(".project-details:last").append(HTMLprojectTitle.replace("%data%", projects.projects[i].title));
-                $(".project-details:last").append(HTMLprojectDates.replace("%data%", projects.projects[i].dates));
-                $(".project-details:last").append(HTMLprojectDescription.replace("%data%", projects.projects[i].description));
-                $(".project-entry:last").append(HTMLprojectImage.replace("%data%", projects.projects[i].images));
-                $(".project-entry:last").append(HTMLprojectDemo.replace("%data%", projects.projects[i].demo));
-                $(".project-entry:last").append(HTMLprojectGit.replace("%data%", projects.projects[i].gitlink));
-
-            }
-        };
-        projects.display();
+        $("projects").css("display", "none");
     }
-}
-
-else
-{
-    $("projects").css("display", "none");
-}
 
 }
 
 function educationInitalize() {
     if (jQuery.isEmptyObject(education) != "undefined") {
-    if (jQuery.isEmptyObject(education)) {
-        $("educations").css("display", "none");
-    } else {
-        education.display = function() {
-            for (var i in education.schools) {
-                $("#education").append(HTMLschoolStart);
-                $(".education-entry:last").append(HTMLschoolName.replace("%data%", education.schools[i].name));
-                $(".education-entry:last").append(HTMLschoolLocation.replace("%data%", education.schools[i].location));
-                $(".education-entry:last").append(HTMLschoolDegree.replace("%data%", education.schools[i].degree));
-                if(education.schools[i].major.length > 0){
-                    $(".education-entry:last").append(HTMLschoolMajor.replace("%data%", education.schools[i].major.join(",")));        
-                }                
-                $(".education-entry:last").append(HTMLschoolDates.replace("%data%", education.schools[i].dates));
-                $(".education-entry:last").append(HTMLschoolUrl.replace(/%data%/g, education.schools[i].url));
-            }
-            $(".education-entry:last").append(HTMLonlineHead);
-            for (var i in education.onlineCourses) {
-                $(".education-entry:last").append(HTMLonlineClasses);
-                $(".education-entry:last").append(HTMLonlineTitle.replace("%data%", education.onlineCourses[i].title));
-                $(".education-entry:last").append(HTMLonlineSchool.replace("%data%", education.onlineCourses[i].school));
-                $(".education-entry:last").append(HTMLonlineDates.replace("%data%", education.onlineCourses[i].dates));
-                $(".education-entry:last").append(HTMLonlineURL.replace(/%data%/g, education.onlineCourses[i].url));
-            }
-        };
-        
-        education.chartDisplay = function() {
-            var educationdates = [];
-            var educationtitle = [];
-            var educationindex;
-        if (education.schools.length > 0) {
-            for (var i in education.schools) {
-                educationindex = 0;
-                educationindex = education.schools[i].dates.indexOf("-");
-                educationdates.push(education.schools[i].dates.substring(++educationindex));
-                educationtitle.push(education.schools[i].degree);
-            }
-        }
-        if (education.onlineCourses.length > 0) {
-            for (var i in education.onlineCourses) {
-                educationindex = 0;
-                educationindex = education.onlineCourses[i].dates.indexOf("-");
-                educationdates.push(education.onlineCourses[i].dates.substring(++educationindex));
-                educationtitle.push((education.onlineCourses[i].title).concat(education.onlineCourses[i].school));
-            }
-        }
-       
-        if ((educationdates.length > 0) && (educationtitle.length > 0)) {
-            var data1 = {
-                labels: educationtitle,
-                datasets: [{
-                    label: "Education & online",
-                    backgroundColor: "rgba(255,99,132,0.2)",
-                    borderColor: "rgba(255,99,132,1)",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                    hoverBorderColor: "rgba(255,99,132,1)",
-                    data: educationdates
-                }]
-
+        if (jQuery.isEmptyObject(education)) {
+            $("educations").css("display", "none");
+        } else {
+            education.display = function() {
+                for (var i = 0; i < education.schools.length; i++) {
+                    $("#education").append(HTMLschoolStart);
+                    $(".education-entry:last").append(HTMLschoolName.replace("%data%", education.schools[i].name));
+                    $(".education-entry:last").append(HTMLschoolLocation.replace("%data%", education.schools[i].location));
+                    $(".education-entry:last").append(HTMLschoolDegree.replace("%data%", education.schools[i].degree));
+                    if (education.schools[i].majors.length > 0) {
+                        $(".education-entry:last").append(HTMLschoolmajors.replace("%data%", education.schools[i].majors.join(",")));
+                    }
+                    $(".education-entry:last").append(HTMLschoolDates.replace("%data%", education.schools[i].dates));
+                    $(".education-entry:last").append(HTMLschoolUrl.replace(/%data%/g, education.schools[i].url));
+                }
+                $(".education-entry:last").append(HTMLonlineHead);
+                for (var i = 0; i < education.onlineCourses.length; i++) {
+                    $("#education").append(HTMLonlineStart);
+                    $(".online-entry:last").append(HTMLonlineTitle.replace("%data%", education.onlineCourses[i].title));
+                    $(".online-entry:last").append(HTMLonlineSchool.replace("%data%", education.onlineCourses[i].school));
+                    $(".online-entry:last").append(HTMLonlineDates.replace("%data%", education.onlineCourses[i].date));
+                    $(".online-entry:last").append(HTMLonlineURL.replace(/%data%/g, education.onlineCourses[i].url));
+                }
             };
 
-            // Call functions
-            var ctx1 = document.getElementById("education-chart").getContext("2d");
-            new Chart(ctx1, {
-                type: 'horizontalBar',
-                data: data1,
-                reponsive: false
-            });
+            education.chartDisplay = function() {
+                var educationdates = [];
+                var educationtitle = [];
+                var educationindex;
+                if (education.schools.length > 0) {
+                    for (var i = 0; i < education.schools.length; i++) {
+                        educationindex = 0;
+                        educationindex = education.schools[i].dates.indexOf("-");
+                        educationdates.push(education.schools[i].dates.substring(++educationindex));
+                        educationtitle.push(education.schools[i].degree);
+                    }
+                }
+                if (education.onlineCourses.length > 0) {
+                    for (var i = 0; i < education.onlineCourses.length; i++) {
+                        educationindex = 0;
+                        educationindex = education.onlineCourses[i].date.indexOf("-");
+                        educationdates.push(education.onlineCourses[i].date.substring(++educationindex));
+                        educationtitle.push((education.onlineCourses[i].title).concat(education.onlineCourses[i].school));
+                    }
+                }
+
+                if ((educationdates.length > 0) && (educationtitle.length > 0)) {
+                    var data1 = {
+                        labels: educationtitle,
+                        datasets: [{
+                            label: "Education & online",
+                            backgroundColor: "rgba(255,99,132,0.2)",
+                            borderColor: "rgba(255,99,132,1)",
+                            borderWidth: 1,
+                            hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                            hoverBorderColor: "rgba(255,99,132,1)",
+                            data: educationdates
+                        }]
+
+                    };
+
+                    // Call functions
+                    var ctx1 = document.getElementById("education-chart").getContext("2d");
+                    new Chart(ctx1, {
+                        type: 'horizontalBar',
+                        data: data1,
+                        reponsive: false
+                    });
+                }
+            };
+            education.display();
+            education.chartDisplay();
+
+
         }
-    };
-        education.display();
-        education.chartDisplay();
-
-
-    }
-    }
-    else
-    {
-          $("educations").css("display", "none");
+    } else {
+        $("educations").css("display", "none");
     }
 }
 var map;
