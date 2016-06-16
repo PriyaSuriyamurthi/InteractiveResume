@@ -7,7 +7,7 @@ Resume has the details about
 5. Grommed at
 6. Education chart
 
-
+http://priyasuriyamurthi.github.io/InteractiveResume/index.html 
 
 
 
